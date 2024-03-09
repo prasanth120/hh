@@ -1,15 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tenith--movies</title>
+    <title>Web Music Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .songContainer {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .songImage {
+            width: 100px; /* Adjust the size of the image */
+            height: 100px; /* Adjust the size of the image */
+            object-fit: cover; /* Ensure the image covers the container */
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        #audioPlayer {
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        #controls {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            background-color: #3498db;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #queue {
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        #songSelector {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        #songTitle {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
 </head>
+
 <body>
- <h1 style="colour:red;">Vadakkupatti Ramasamy</h1>
- <video width="640" height="480" controls>
-        <source src="files/Vadakkupatti Ramasamy.mp4" type="video/mp4">
-        Your browser does not support the HTML5 video element.
-      </video>
-          </body>
+    <div class="songContainer" id="currentSong">
+        <img class="songImage" src="" alt="Song Image">
+        <div id="songTitle"></div>
+    </div>
+
+    <audio id="audioPlayer" controls>
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="controls">
+        <button onclick="previousSong()">Previous</button>
+        <button onclick="togglePlayPause()">Play/Pause</button>
+        <button onclick="nextSong()">Next</button>
+    </div>
+
+    <div id="queue">
+        <h3>Queue</h3>
+        <select id="songSelector" onchange="selectSong()">
+            <!-- Options will be dynamically added here -->
+        </select>
+    </div>
+
+    <script>
+        const playlist = [
+            {
+                title: "Oh My Baby",
+                path: "music/OhMyBaby.mp3",
+                image: "one-piece.jpg",
+            },
+            {
+                title: "Arabu Nade",
+                path: "music/Arabu Nade.mp3",
+                image: "one-piece.jpg",
+            }
+            ,
+            {
+                title: "Sonapareeya",
+                path: "music/Sonapareeya.mp3",
+                image: "one-piece.jpg",
+            },
+        ];
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const currentSongDisplay = document.getElementById('currentSong');
+        const songTitleDisplay = document.getElementById('songTitle');
+        const songImage = document.querySelector('.songImage');
+        const songSelector = document.getElementById('songSelector');
+        let currentSongIndex = 0;
+
+        // Initialize the player with the first song
+        updateCurrentSong();
+
+        // Populate the dropdown list with songs
+        playlist.forEach((song, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.text = song.title;
+            songSelector.add(option);
+        });
+
+        function selectSong() {
+            currentSongIndex = parseInt(songSelector.value, 10);
+            playSong(currentSongIndex);
+        }
+
+        function playSong(index) {
+            currentSongIndex = index;
+            updateCurrentSong();
+            audioPlayer.src = playlist[currentSongIndex].path;
+            songImage.src = playlist[currentSongIndex].image;
+            audioPlayer.play();
+        }
+
+        function updateCurrentSong() {
+            const currentSong = playlist[currentSongIndex];
+            songTitleDisplay.textContent = currentSong.title;
+            songImage.src = currentSong.image;
+        }
+
+        function togglePlayPause() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+            } else {
+                audioPlayer.pause();
+            }
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            playSong(currentSongIndex);
+        }
+
+        function previousSong() {
+            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+            playSong(currentSongIndex);
+        }
+
+        // Add event listener for when a song ends to play the next song
+        audioPlayer.addEventListener('ended', () => {
+            nextSong();
+        });
+    </script>
+</body>
+
 </html>
