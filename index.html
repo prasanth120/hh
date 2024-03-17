@@ -1,19 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@tenith</title>
+    <title>Web Music Player</title>
     <style>
-        body{background: rgb(37, 36, 33);}
-        h1{color: rgb(109, 182, 109)}
+        /* Your existing CSS styles remain unchanged */
+
+        #searchInput {
+            width: 40%; 
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 20px;
+        }
     </style>
 </head>
-<body >
-    <h1 >TENITH RAJ</h1><br><br><b></b><p>gfhdjwkllasdrtfddfghersdtyguiokp[l;654ewqwadszfxk;p[;oiuy3erwdfsk</p>
+
+<body>
+   Add the search input above the queue 
+    <input type="text" id="searchInput" oninput="filterSongs()" placeholder="Search for songs...">
+
+    <div class="songContainer" id="currentSong">
+        <img class="songImage" src="" width="300" alt="Song Image">
+        <div id="songTitle"></div>
+    </div>
+
+    <audio id="audioPlayer" controls>
+        Your browser does not support the audio element.
+    </audio>
+
+    <div id="controls">
+        <button onclick="previousSong()" style="background-color: aqua;">Previous</button>
+        <button onclick="togglePlayPause()"style="background-color: aqua;">Play/Pause</button>
+        <button onclick="nextSong()"style="background-color: aqua;">Next</button>
+    </div>
+
+    <div id="queue">
+        <h3>Queue</h3>
+        <select id="songSelector" onchange="selectSong()">
+           Options will be dynamically added here x
+        </select>
+    </div>
+
+    <script>
+        const playlist = [
+            {
+                title: "OhMyBaby",
+                path: "OhMyBaby.mp3",
+                image: "one-piece.jpg",
+            },
+            {
+                title: "Arabu Nade",
+                path: "Arabu Nade.mp3",
+                image: "one-piece.jpg",
+            },
+            {
+                title: "Sonapareeya",
+                path: "Sonapareeya.mp3",
+                image: "one-piece.jpg",
+            },
+        ];
+
+        const audioPlayer = document.getElementById('audioPlayer');
+        const currentSongDisplay = document.getElementById('currentSong');
+        const songTitleDisplay = document.getElementById('songTitle');
+        const songImage = document.querySelector('.songImage');
+        const songSelector = document.getElementById('songSelector');
+        const searchInput = document.getElementById('searchInput');
+        let currentSongIndex = 0;
+
+        // Initialize the player with the first song
+        updateCurrentSong();
+
+        // Populate the dropdown list with all songs initially
+        playlist.forEach((song, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.text = song.title;
+            songSelector.add(option);
+        });
+
+        // Call filterSongs() to initialize the dropdown with all songs
+        filterSongs();
+
+        function selectSong() {
+            currentSongIndex = parseInt(songSelector.value, 10);
+            playSong(currentSongIndex);
+        }
+
+        function playSong(index) {
+            currentSongIndex = index;
+            updateCurrentSong();
+            audioPlayer.src = playlist[currentSongIndex].path;
+            songImage.src = playlist[currentSongIndex].image;
+            audioPlayer.play();
+        }
+
+        function updateCurrentSong() {
+            const currentSong = playlist[currentSongIndex];
+            songTitleDisplay.textContent = currentSong.title;
+            songImage.src = currentSong.image;
+        }
+
+        function togglePlayPause() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+            } else {
+                audioPlayer.pause();
+            }
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            playSong(currentSongIndex);
+        }
+
+        function previousSong() {
+            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+            playSong(currentSongIndex);
+        }
+
+        // Add event listener for when a song ends to play the next song
+        audioPlayer.addEventListener('ended', () => {
+            nextSong();
+        });
+
+        function filterSongs() {
+            const searchInputValue = searchInput.value.toLowerCase();
+            const filteredPlaylist = playlist.filter(song => song.title.toLowerCase().includes(searchInputValue));
+
+            // Clear and repopulate the dropdown list with filtered songs
+            songSelector.innerHTML = "";
+            filteredPlaylist.forEach((song, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.text = song.title;
+                songSelector.add(option);
+            });
+
+            // Update the currently selected song based on the filtered list
+            selectSong();
+        }
+    </script>
 
 
-    <iframe src="tenith/index.html" width="500" height="600" frameborder="0"></iframe>
+    <br><br>
+    <iframe width="600" height="480" src="https://d000d.com/e/w2jmn66fq6adm8piicvutozfm0291ftu" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
 
 </body>
+
 </html>
