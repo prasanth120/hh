@@ -9,7 +9,7 @@
         /* Your existing CSS styles remain unchanged */
         body {
             /* Default background image for all devices */
-            background-image: url(bg/k.jpg);
+            background-image: url(k.jpg);
             background-size: cover; /* Replace with your image path */
             /* Add any other common styles */
             background-repeat: no-repeat;
@@ -19,7 +19,7 @@
             /* For mobile devices */
             body {
                 margin: 0;padding: 0;
-                background-image: url(bg/pk.jpg); 
+                background-image: url(pk.jpg); 
                 background-repeat: no-repeat;
                 background-size: cover;
                 height: 950px;
@@ -28,34 +28,25 @@
             }
         }
 
-        @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
-
-* {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;	
-	font-family: Raleway, sans-serif;
-}
-
         #searchInput {
             width: 30%; 
             padding: 10px;
+            padding-bottom: 10px;
             margin-top: 10px;
-            border-radius: 30px;
+            border-radius: 60px;
         }
     </style>
 </head>
 
 <body>
-   Add the search input above the queue 
    <div style="color: aqua;">
     <div style="padding-left: 30px;">
     <input type="text" id="searchInput" oninput="filterSongs()" placeholder="Search for songs...">
-    </div>
+    </div><br>
     <div class="songContainer" id="currentSong">
         <img class="songImage" src="" width="300" alt="Song Image">
-        <div id="songTitle"></div>
-    </div>
+        <div id="songTitle"><br></div>
+    </div><br>
 
     <audio id="audioPlayer" controls>
         Your browser does not support the audio element.
