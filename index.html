@@ -7,15 +7,27 @@
     <title>#ten</title>
     <style>
         /* Your existing CSS styles remain unchanged */
-        body{
-            margin: 10px;padding: 10px;
-            background-image: url(pexels-andrea-piacquadio-933255.jpg);
-            background-size: cover;
+        body {
+            /* Default background image for all devices */
+            background-image: url(pee.jpg);
+            background-size: cover; /* Replace with your image path */
+            /* Add any other common styles */
             background-repeat: no-repeat;
-            display:flexbox;
-            color: aqua;
-            align-items: center;
         }
+
+        @media only screen and (max-width: 600px) {
+            /* For mobile devices */
+            body {
+                margin: 0;padding: 0;
+                background-image: url(pk.jpg); 
+                background-repeat: no-repeat;
+                background-size: cover;
+                height: 950px;
+                align-items: center;/* Replace with your mobile image path */
+                /* Add any specific styles for mobile devices */
+            }
+        }
+
 
         #searchInput {
             width: 40%; 
